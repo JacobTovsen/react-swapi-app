@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import Header from '../Header/Header';
+import PlanetList from '../PlanetList/PlanetList';
+import PeopleList from '../PeopleList/PeopleList';
 
 class App extends Component {
 
@@ -8,7 +11,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      planetList: []
+      planetList: [],
+      peopleList: []
     }
   }
 
@@ -17,7 +21,7 @@ class App extends Component {
   componentDidMount() {
     console.log('App component mounted');
     this.getPlanets('https://swapi.co/api/planets/?format=json');
-    
+    this.getPeople('https://swapi.co/api/people/?format=json');
   }
 
   getPlanets(url){
@@ -39,22 +43,37 @@ class App extends Component {
       });
   }
 
+  //async function
+  async getPeople(url){
+    let nextUrl = url;
+    while (nextUrl != null){
+      await axios.get(nextUrl) //must be inside of async function for await
+        .then( (response) => {
+          this.setState (
+            {
+              peopleList: [...this.state.peopleList, ...response.data.results]
+            }
+          );
+          nextUrl = response.data.next
+        }).catch( (error) => {
+          console.log('Error in people');
+          nextUrl = null;
+        });
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Swapi Planets</h1>
-        </header>
-        <section>
-          <ul>
-          {
-            this.state.planetList.map( planet => 
-            <li key={planet.name}>{planet.name}</li>
-            )
-          }
-          </ul>
-        </section>
+        <Header />
+        <div className="grid-container">
+          <PlanetList planetList={this.state.planetList}/>
+          <PeopleList peopleList={this.state.peopleList}/>   
+        </div>
         
+
+        <br/>
+           
       </div>
     );
   }

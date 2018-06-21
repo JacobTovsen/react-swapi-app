@@ -8,8 +8,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 50px;
+  background: linear-gradient(45deg, gray, red);
+  height: 150px;
   padding: 20px;
   color: white;
 }
@@ -29,4 +29,11 @@
 
 li {
   list-style-type: none;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: gray;
+  padding: 10px;
 }

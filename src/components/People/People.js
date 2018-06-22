@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Planet extends Component {
+class People extends Component {
 
   render() {
     return (
@@ -9,4 +9,4 @@ class Planet extends Component {
   }
 }
 
-export default Planet;
+export default People;
